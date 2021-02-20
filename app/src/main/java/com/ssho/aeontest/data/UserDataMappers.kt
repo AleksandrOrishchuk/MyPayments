@@ -13,7 +13,6 @@ class MapUserDataToLoginUi : (UserData) -> LoginUi {
         return LoginUi(
             login = userData.login,
             password = userData.password,
-            isRememberMeChecked = userData.isRemembered
         )
     }
 }
@@ -23,7 +22,6 @@ class MapLoginUiToUserData : (LoginUi) -> UserData {
         return UserData(
             login = loginUi.login,
             password = loginUi.password,
-            isRemembered = loginUi.isRememberMeChecked
         )
     }
 
