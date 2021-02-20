@@ -5,7 +5,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ssho.aeontest.R
 import com.ssho.aeontest.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
@@ -20,9 +19,13 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        setHasOptionsMenu(true)
         loginBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
         return loginBinding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
     }
 }

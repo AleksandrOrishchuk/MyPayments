@@ -7,7 +7,7 @@ import retrofit2.http.Path
 interface RemoteServerApi {
 
     @POST("/login?login={login},password={password}")
-    suspend fun loginUser(
+    suspend fun getAccessToken(
         @Path(value = "login", encoded = true)
         login: String,
         @Path(value = "password", encoded = true)

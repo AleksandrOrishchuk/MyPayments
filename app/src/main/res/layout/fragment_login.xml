@@ -30,7 +30,9 @@
             android:id="@+id/login_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:hint="@string/login_field_hint"
+            android:maxLength="25"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -43,7 +45,9 @@
             android:id="@+id/password_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:hint="@string/password_field_hint"
+            android:maxLength="25"/>
 
         <CheckBox
             android:id="@+id/remember_me_checkbox"
@@ -57,7 +61,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@android:color/holo_red_dark"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/network_error_text_view"
+            android:text="@string/network_error_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            tools:visibility="gone"/>
 
         <Button
             android:id="@+id/login_button"

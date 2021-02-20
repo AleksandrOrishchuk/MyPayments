@@ -1,38 +1,56 @@
 package com.ssho.aeontest.data
 
-import android.content.SharedPreferences
-import androidx.core.content.edit
+import com.ssho.aeontest.data.model.UserData
+import com.ssho.aeontest.utils.ResultWrapper
 
-class UserRepository(private val sharedPreferences: SharedPreferences) {
+interface UserRepository {
+    suspend fun login(userData: UserData): ResultWrapper<Unit>
+    fun getCurrentUser(): UserData
+    fun isLoginDataCached(): Boolean
+    fun isUserLoggedIn(): Boolean
+    fun confirmUserLogin()
+    fun confirmUserLogout()
+}
 
-    companion object {
-        private const val KEY_EMAIL = "key_email"
-        private const val KEY_PASSWORD = "key_password"
-        private const val KEY_TOKEN = "key_token"
-        private const val KEY_IS_USER_REMEMBERED = "key_is_user_remembered"
+class UserRepositoryImpl(
+    private val userLocalDataSource: UserLocalDataSource,
+    private val userRemoteDataSource: UserRemoteDataSource
+) : UserRepository {
+    override suspend fun login(user: UserData): ResultWrapper<Unit> {
+        if (user.isRemembered)
+            userLocalDataSource.user = user
+
+        val userAccessToken = userRemoteDataSource.getUserAccessToken(user = user)
+
+        return when(userAccessToken) {
+            is ResultWrapper.Success -> {
+                val updatedUser = user.copy(accessToken = userAccessToken.value)
+                userLocalDataSource.user = updatedUser
+                ResultWrapper.Success(Unit)
+            }
+            ResultWrapper.InvalidLoginError -> ResultWrapper.InvalidLoginError
+            ResultWrapper.NetworkError -> ResultWrapper.NetworkError
+        }
     }
 
-    var email: String
-        get() = sharedPreferences.getString(KEY_EMAIL, "").orEmpty()
-        set(value) {
-            sharedPreferences.edit { putString(KEY_EMAIL, value) }
-        }
+    override fun getCurrentUser(): UserData {
+        return userLocalDataSource.user
+    }
 
-    var password: String
-        get() = sharedPreferences.getString(KEY_PASSWORD, "").orEmpty()
-        set(value) {
-            sharedPreferences.edit { putString(KEY_PASSWORD, value) }
-        }
+    override fun isLoginDataCached(): Boolean {
+        return userLocalDataSource.user.isRemembered
+    }
 
-    var loginToken: String
-        get() = sharedPreferences.getString(KEY_TOKEN, "").orEmpty()
-        set(value) {
-            sharedPreferences.edit { putString(KEY_TOKEN, value) }
-        }
+    override fun isUserLoggedIn(): Boolean {
+        return userLocalDataSource.isUserLoggedIn
+    }
 
-    var isRememberMeEnabled: Boolean
-        get() = sharedPreferences.getBoolean(KEY_IS_USER_REMEMBERED, false)
-        set(value) {
-            sharedPreferences.edit { putBoolean(KEY_IS_USER_REMEMBERED, value) }
-        }
+    override fun confirmUserLogin() {
+        userLocalDataSource.isUserLoggedIn = true
+    }
+
+    override fun confirmUserLogout() {
+        userLocalDataSource.isUserLoggedIn = false
+    }
+
 }
