@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.ssho.aeontest.domain.GetCachedLoginDataUseCase
+import com.ssho.aeontest.domain.GetCachedLoginUseCase
 import com.ssho.aeontest.domain.LoginUseCase
 import com.ssho.aeontest.ui.model.LoginUi
 
 class LoginFragmentViewModel(
     private val loginUseCase: LoginUseCase,
-    private val getCachedLoginData: GetCachedLoginDataUseCase,
+    private val getCachedLogin: GetCachedLoginUseCase,
 ) : ViewModel() {
     val loginViewState: LiveData<LoginViewState> get() = _loginViewState
     val successfulLogin: LiveData<Unit> get() = _successfulLogin
@@ -19,7 +19,7 @@ class LoginFragmentViewModel(
     private val _successfulLogin = MutableLiveData<Unit>()
 
 init {
-    val initialLoginUi = getCachedLoginData()
+    val initialLoginUi = getCachedLogin()
     postRegularLoggingViewState(initialLoginUi)
 }
 
@@ -50,12 +50,12 @@ init {
 @Suppress("UNCHECKED_CAST")
 class LoginFragmentViewModelFactory(
     private val loginUseCase: LoginUseCase,
-    private val getCachedLoginDataUseCase: GetCachedLoginDataUseCase
+    private val getCachedLoginUseCase: GetCachedLoginUseCase
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return LoginFragmentViewModel(
             loginUseCase,
-            getCachedLoginDataUseCase
+            getCachedLoginUseCase
         ) as T
     }
 
