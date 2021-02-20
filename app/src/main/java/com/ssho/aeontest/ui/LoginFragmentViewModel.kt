@@ -8,4 +8,5 @@ class LoginFragmentViewModel : ViewModel() {
 sealed class LoginViewState {
     object RegularLogging: LoginViewState()
     object FailedLogging: LoginViewState()
+    object Loading: LoginViewState()
 }
