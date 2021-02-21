@@ -7,6 +7,11 @@ import com.ssho.aeontest.R
 import com.ssho.aeontest.databinding.FragmentSuccessfulLoginBinding
 
 class SuccessfulLoginFragment : Fragment() {
+    companion object {
+        fun newInstance(): SuccessfulLoginFragment {
+            return SuccessfulLoginFragment()
+        }
+    }
 
     private lateinit var viewBinding: FragmentSuccessfulLoginBinding
 
@@ -25,4 +30,11 @@ class SuccessfulLoginFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.fragment_successful_login, menu)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+    }
+
 }

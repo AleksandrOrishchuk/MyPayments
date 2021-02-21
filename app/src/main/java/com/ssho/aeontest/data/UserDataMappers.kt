@@ -1,27 +1,28 @@
 package com.ssho.aeontest.data
 
+import com.ssho.aeontest.data.model.LoginData
 import com.ssho.aeontest.data.model.UserData
 import com.ssho.aeontest.ui.model.LoginUi
 
 class UserDataMappers {
-    val toLoginUi = MapUserDataToLoginUi()
-    val fromLoginUi = MapLoginUiToUserData()
+    val toLoginData = MapUserDataToLoginData()
+    val fromLoginData = MapLoginDataToUserData()
 }
 
-class MapUserDataToLoginUi : (UserData) -> LoginUi {
-    override fun invoke(userData: UserData): LoginUi {
-        return LoginUi(
+class MapUserDataToLoginData : (UserData) -> LoginData {
+    override fun invoke(userData: UserData): LoginData {
+        return LoginData(
             login = userData.login,
             password = userData.password,
         )
     }
 }
 
-class MapLoginUiToUserData : (LoginUi) -> UserData {
-    override fun invoke(loginUi: LoginUi): UserData {
+class MapLoginDataToUserData : (LoginData) -> UserData {
+    override fun invoke(loginData: LoginData): UserData {
         return UserData(
-            login = loginUi.login,
-            password = loginUi.password,
+            login = loginData.login,
+            password = loginData.password,
         )
     }
 

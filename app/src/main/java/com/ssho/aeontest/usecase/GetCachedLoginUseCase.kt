@@ -1,4 +1,4 @@
-package com.ssho.aeontest.domain
+package com.ssho.aeontest.usecase
 
 import com.ssho.aeontest.data.LoginDataMappers
 import com.ssho.aeontest.data.LoginRepository

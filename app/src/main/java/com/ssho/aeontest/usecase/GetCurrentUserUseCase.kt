@@ -1,20 +1,20 @@
-package com.ssho.aeontest.domain
+package com.ssho.aeontest.usecase
 
+import com.ssho.aeontest.data.LoginFailureException
 import com.ssho.aeontest.data.UserRepository
 import com.ssho.aeontest.data.model.UserData
-import com.ssho.aeontest.utils.ResultWrapper
 
 interface GetCurrentUserUseCase {
-    operator fun invoke(): ResultWrapper<UserData>
+    operator fun invoke(): UserData
 }
 
 class GetCurrentUserUseCaseImpl(
     private val userRepository: UserRepository
 ): GetCurrentUserUseCase {
-    override fun invoke(): ResultWrapper<UserData> {
+    override fun invoke(): UserData {
         return if (userRepository.isUserLoggedIn())
-            ResultWrapper.Success(userRepository.getCurrentUser())
+            userRepository.getCurrentUser()
         else
-            ResultWrapper.InvalidLoginError
+            throw LoginFailureException(404, "User is logged out.")
     }
 }

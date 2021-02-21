@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">aeontest</string>
+    <string name="app_name">My Transactions</string>
     <string name="login_title">Login:</string>
     <string name="password_title">Password:</string>
     <string name="remember_me_title">Remember me</string>

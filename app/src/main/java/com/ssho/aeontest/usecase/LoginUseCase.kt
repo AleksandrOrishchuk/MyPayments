@@ -1,14 +1,14 @@
-package com.ssho.aeontest.domain
+package com.ssho.aeontest.usecase
 
 import com.ssho.aeontest.data.LoginDataMappers
 import com.ssho.aeontest.data.LoginRepository
 import com.ssho.aeontest.data.UserDataMappers
 import com.ssho.aeontest.data.UserRepository
+import com.ssho.aeontest.data.model.LoginData
 import com.ssho.aeontest.ui.model.LoginUi
-import com.ssho.aeontest.utils.ResultWrapper
 
 interface LoginUseCase {
-    suspend operator fun invoke(loginUi: LoginUi): ResultWrapper<Unit>
+    suspend operator fun invoke(loginUi: LoginUi)
 }
 
 class LoginUseCaseImpl(
@@ -17,19 +17,22 @@ class LoginUseCaseImpl(
     private val userRepository: UserRepository,
     private val userDataMappers: UserDataMappers,
 ) : LoginUseCase {
-    override suspend fun invoke(loginUi: LoginUi): ResultWrapper<Unit> {
+    override suspend fun invoke(loginUi: LoginUi) {
+        val loginData = loginUi.let(loginDataMappers.fromLoginUi)
+
         if (loginUi.isRememberMeChecked)
-            cacheLoginData(loginUi)
+            cacheLoginData(loginData)
         else
             loginRepository.isLoginDataCached = false
 
-        val userData = loginUi.let(userDataMappers.fromLoginUi)
+        val userAccessToken = loginRepository.getAccessToken(loginData)
+        var user = loginData.let(userDataMappers.fromLoginData)
+        user = user.copy(accessToken = userAccessToken)
 
-        return userRepository.login(userData)
+        userRepository.setCurrentUser(user)
     }
 
-    private fun cacheLoginData(loginUi: LoginUi) {
-        val loginData = loginUi.let(loginDataMappers.fromLoginUi)
+    private fun cacheLoginData(loginData: LoginData) {
         loginRepository.cacheLoginData(loginData)
         loginRepository.isLoginDataCached = true
     }

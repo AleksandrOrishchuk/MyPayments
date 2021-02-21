@@ -1,19 +1,21 @@
 package com.ssho.aeontest.data.api
 
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import okhttp3.ResponseBody
+import retrofit2.http.*
 
 interface RemoteServerApi {
 
-    @POST("/login?login={login},password={password}")
+    @FormUrlEncoded
+    @Headers("app-key:12345", "v:1")
+    @POST("/login")
     suspend fun getAccessToken(
-        @Path(value = "login", encoded = true)
+        @Field("login")
         login: String,
-        @Path(value = "password", encoded = true)
+        @Field("password")
         password: String
-    ) //todo RECEIVE TOKEN FORMAT and parse into wrapped result
+    ): ResponseBody
 
+    @Headers("app-key:12345", "v:1")
     @GET("/payments?token={token}")
     suspend fun getPayments(
         @Path(value = "token", encoded = true)
