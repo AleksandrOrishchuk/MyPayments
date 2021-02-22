@@ -7,8 +7,12 @@ import androidx.preference.PreferenceManager
 import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.data.*
 import com.ssho.aeontest.data.api.RemoteServerApi
-import com.ssho.aeontest.ui.LoginFragmentViewModelFactory
-import com.ssho.aeontest.usecase.*
+import com.ssho.aeontest.domain.service.AuthServices
+import com.ssho.aeontest.domain.service.AuthServicesImpl
+import com.ssho.aeontest.domain.service.GetAuthUiDataServiceImpl
+import com.ssho.aeontest.ui.AuthFragmentViewModelFactory
+import com.ssho.aeontest.ui.SuccessfulLoginViewModelFactory
+import com.ssho.aeontest.domain.usecase.*
 import retrofit2.Retrofit
 
 @SuppressLint("StaticFieldLeak")
@@ -31,26 +35,22 @@ internal object AppModule {
         retrofit.create(RemoteServerApi::class.java)
     }
 
-    private val loginRemoteDataSource: LoginRemoteDataSource by lazy {
-        LoginRemoteDataSourceImpl(
+    private val authRemoteDataSource: AuthRemoteDataSource by lazy {
+        AuthRemoteDataSourceImpl(
             remoteServerApi = remoteServerApi
         )
     }
 
-    private val loginLocalDataSource: LoginLocalDataSource by lazy {
-        LoginLocalDataSource(
+    private val authLocalDataSource: AuthLocalDataSource by lazy {
+        AuthLocalDataSource(
             sharedPreferences = sharedPrefs
         )
     }
 
-    private val loginDataMappers: LoginDataMappers by lazy {
-        LoginDataMappers()
-    }
-
-    private val loginRepository: LoginRepository by lazy {
-        LoginRepositoryImpl(
-            loginLocalDataSource = loginLocalDataSource,
-            loginRemoteDataSource = loginRemoteDataSource
+    private val authRepository: AuthRepository by lazy {
+        AuthRepositoryImpl(
+            authLocalDataSource = authLocalDataSource,
+            authRemoteDataSource = authRemoteDataSource
         )
     }
 
@@ -66,38 +66,44 @@ internal object AppModule {
         )
     }
 
-    private val userDataMappers: UserDataMappers by lazy {
-        UserDataMappers()
-    }
 
-    private val loginUseCase: LoginUseCase by lazy {
-        LoginUseCaseImpl(
-            loginRepository = loginRepository,
-            loginDataMappers = loginDataMappers,
+    private val authorizeUserUseCase: AuthorizeUserUseCase by lazy {
+        AuthorizeUserUseCaseImpl(
+            authRepository = authRepository,
             userRepository = userRepository,
-            userDataMappers = userDataMappers
         )
     }
 
-    private val getCachedLoginUseCase: GetCachedLoginUseCase by lazy {
-        GetCachedLoginUseCaseImpl(
-            loginRepository,
-            loginDataMappers
+    private val unauthorizeUserUseCase: UnauthorizeUserUseCase by lazy {
+        UnauthorizeUserUseCaseImpl(
+            userRepository = userRepository
         )
     }
 
-    private val getCurrentUserUseCase: GetCurrentUserUseCase by lazy {
+    private val authServices: AuthServices by lazy {
+        AuthServicesImpl(
+            GetAuthUiDataServiceImpl(
+                authRepository
+            )
+        )
+    }
+
+    internal val getCurrentUserUseCase: GetCurrentUserUseCase by lazy {
         GetCurrentUserUseCaseImpl(
             userRepository
         )
     }
 
-    internal fun isUserLoggedIn(): Boolean = userRepository.isUserLoggedIn()
+    internal fun provideAuthViewModelFactory(): AuthFragmentViewModelFactory =
+        AuthFragmentViewModelFactory(
+            authorizeUserUseCase = authorizeUserUseCase,
+            authServices = authServices,
+            navigator = navigator
+        )
 
-    internal fun provideLoginViewModelFactory(): LoginFragmentViewModelFactory =
-        LoginFragmentViewModelFactory(
-            loginUseCase = loginUseCase,
-            getCachedLoginUseCase = getCachedLoginUseCase,
+    internal fun provideSuccessfulAuthViewModelFactory(): SuccessfulLoginViewModelFactory =
+        SuccessfulLoginViewModelFactory(
+            unauthorizeUserUseCase = unauthorizeUserUseCase,
             navigator = navigator
         )
 }

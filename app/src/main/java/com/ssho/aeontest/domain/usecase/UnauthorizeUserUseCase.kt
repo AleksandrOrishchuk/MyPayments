@@ -1,15 +1,14 @@
-package com.ssho.aeontest.usecase
+package com.ssho.aeontest.domain.usecase
 
 import com.ssho.aeontest.data.UserRepository
-import com.ssho.aeontest.ui.model.LoginUi
 
-interface LogoutUseCase {
+interface UnauthorizeUserUseCase {
     operator fun invoke()
 }
 
-class LogoutUseCaseImpl(
+class UnauthorizeUserUseCaseImpl(
     private val userRepository: UserRepository
-) : LogoutUseCase {
+) : UnauthorizeUserUseCase {
     override fun invoke() {
         userRepository.confirmUserLogout()
     }

@@ -2,7 +2,7 @@ package com.ssho.aeontest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.ssho.aeontest.di.AppModule.isUserLoggedIn
+import com.ssho.aeontest.di.AppModule.getCurrentUserUseCase
 import com.ssho.aeontest.di.AppModule.navigator
 
 class MainActivity : AppCompatActivity() {
@@ -13,9 +13,10 @@ class MainActivity : AppCompatActivity() {
         navigator.activity = this
 
         val isFragmentContainerEmpty = savedInstanceState == null
+        val isUserLoggedIn = getCurrentUserUseCase() != null
 
         if (isFragmentContainerEmpty) {
-            if (isUserLoggedIn())
+            if (isUserLoggedIn)
                 navigator.successfulLogin()
             else
                 navigator.login()

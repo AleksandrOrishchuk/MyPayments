@@ -2,7 +2,7 @@ package com.ssho.aeontest
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.ssho.aeontest.ui.LoginFragment
+import com.ssho.aeontest.ui.AuthFragment
 import com.ssho.aeontest.ui.SuccessfulLoginFragment
 
 class Navigator {
@@ -17,7 +17,7 @@ class Navigator {
     }
 
     fun login() {
-        replaceFragment(LoginFragment.newInstance())
+        replaceFragment(AuthFragment.newInstance())
     }
 
     fun successfulLogin() {
