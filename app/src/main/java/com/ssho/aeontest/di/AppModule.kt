@@ -7,14 +7,17 @@ import androidx.preference.PreferenceManager
 import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.data.*
 import com.ssho.aeontest.data.api.RemoteServerApi
+import com.ssho.aeontest.data.datasource.PaymentsRemoteDataSource
+import com.ssho.aeontest.data.repository.PaymentsRepository
+import com.ssho.aeontest.data.repository.PaymentsRepositoryImpl
 import com.ssho.aeontest.domain.service.AuthDataCacheManager
 import com.ssho.aeontest.domain.service.AuthDataCacheManagerImpl
 import com.ssho.aeontest.domain.service.AuthDataUpdaterImpl
 import com.ssho.aeontest.domain.service.AuthUiDataProviderImpl
 import com.ssho.aeontest.ui.AuthFragmentViewModelFactory
-import com.ssho.aeontest.ui.SuccessfulLoginViewModelFactory
 import com.ssho.aeontest.domain.usecase.*
 import com.ssho.aeontest.ui.AuthUiDataMapper
+import com.ssho.aeontest.ui.PaymentListFragmentViewModelFactory
 import retrofit2.Retrofit
 
 @SuppressLint("StaticFieldLeak")
@@ -68,6 +71,18 @@ internal object AppModule {
         )
     }
 
+    private val paymentsRemoteDataSource: PaymentsRemoteDataSource by lazy {
+        PaymentsRemoteDataSource(
+            remoteServerApi
+        )
+    }
+
+    private val paymentsRepository: PaymentsRepository by lazy {
+        PaymentsRepositoryImpl(
+            paymentsRemoteDataSource
+        )
+    }
+
     private val authDataMapper: AuthDataMapper by lazy {
         AuthDataMapper()
     }
@@ -103,6 +118,13 @@ internal object AppModule {
         )
     }
 
+    private val getUserPaymentsUseCase: GetUserPaymentsUseCase by lazy {
+        GetUserPaymentsUseCaseImpl(
+            getCurrentUser = getCurrentUserUseCase,
+            paymentsRepository = paymentsRepository
+        )
+    }
+
     internal val getCurrentUserUseCase: GetCurrentUserUseCase by lazy {
         GetCurrentUserUseCaseImpl(
             userRepository
@@ -116,9 +138,10 @@ internal object AppModule {
             navigator = navigator
         )
 
-    internal fun provideSuccessfulAuthViewModelFactory(): SuccessfulLoginViewModelFactory =
-        SuccessfulLoginViewModelFactory(
-            unauthorizeUserUseCase = unauthorizeUserUseCase,
+    internal fun providePaymentListViewModelFactory(): PaymentListFragmentViewModelFactory =
+        PaymentListFragmentViewModelFactory(
+            getUserPaymentsUseCase = getUserPaymentsUseCase,
+            unauthorizeUser = unauthorizeUserUseCase,
             navigator = navigator
         )
 }

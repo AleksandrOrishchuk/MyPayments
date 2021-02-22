@@ -1,6 +1,7 @@
 package com.ssho.aeontest.ui
 
 import androidx.lifecycle.ViewModelProvider
+import com.ssho.aeontest.di.AppModule.providePaymentListViewModelFactory
 
 class PaymentListFragment : SuccessfulAuthFragment() {
     companion object {
@@ -8,6 +9,8 @@ class PaymentListFragment : SuccessfulAuthFragment() {
     }
 
     override val viewModel: SuccessfulAuthViewModel by lazy {
-        ViewModelProvider(this).get(PaymentListFragmentViewModel::class.java)
+        ViewModelProvider(this, providePaymentListViewModelFactory()).get(
+            PaymentListFragmentViewModel::class.java
+        )
     }
 }
