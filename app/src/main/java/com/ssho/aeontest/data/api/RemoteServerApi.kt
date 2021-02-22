@@ -7,7 +7,7 @@ interface RemoteServerApi {
 
     @FormUrlEncoded
     @Headers("app-key:12345", "v:1")
-    @POST("/login")
+    @POST("login")
     suspend fun getAccessToken(
         @Field("login")
         login: String,
@@ -16,7 +16,7 @@ interface RemoteServerApi {
     ): ResponseBody
 
     @Headers("app-key:12345", "v:1")
-    @GET("/payments?token={token}")
+    @GET("payments?token={token}")
     suspend fun getPayments(
         @Path(value = "token", encoded = true)
         token: String

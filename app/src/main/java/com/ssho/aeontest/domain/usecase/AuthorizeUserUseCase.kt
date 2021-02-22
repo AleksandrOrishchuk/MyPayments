@@ -15,13 +15,9 @@ class AuthorizeUserUseCaseImpl(
     private val userRepository: UserRepository,
 ) : AuthorizeUserUseCase {
     override suspend fun invoke(authUiData: AuthUiData) {
+        updateOrClearAuthDataCache(authUiData)
+
         val authData = mapAuthData(authUiData)
-
-        if (authUiData.isRememberMeChecked)
-            cacheAuthData(authData)
-        else
-            authRepository.isAuthDataCached = false
-
         val userAccessToken = authRepository.getAccessToken(authData)
         val user = UserData(accessToken = userAccessToken)
 
@@ -34,7 +30,16 @@ class AuthorizeUserUseCaseImpl(
             password = authUiData.password
         )
 
-    private fun cacheAuthData(authData: AuthData) {
+    private fun updateOrClearAuthDataCache(authUiData: AuthUiData) {
+        if (authUiData.isRememberMeChecked)
+            cacheAuthData(authUiData)
+        else
+            authRepository.isAuthDataCached = false
+
+    }
+
+    private fun cacheAuthData(authUiData: AuthUiData) {
+        val authData = mapAuthData(authUiData)
         authRepository.cacheAuthData(authData)
         authRepository.isAuthDataCached = true
     }

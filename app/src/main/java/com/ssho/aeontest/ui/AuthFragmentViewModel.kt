@@ -1,5 +1,6 @@
 package com.ssho.aeontest.ui
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.data.AuthorizationError
@@ -9,6 +10,8 @@ import com.ssho.aeontest.ui.model.AuthUiData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+private const val TAG = "AuthViewModel"
 
 class AuthFragmentViewModel(
     private val authorizeUser: AuthorizeUserUseCase,
@@ -38,6 +41,7 @@ init {
                     postFailedLoggingViewState()
                 else
                     postNetworkErrorViewState()
+                Log.e(TAG, error.message, error)
             }
         }
     }
