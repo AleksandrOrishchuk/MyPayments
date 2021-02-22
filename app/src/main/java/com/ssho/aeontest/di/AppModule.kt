@@ -14,11 +14,11 @@ import com.ssho.aeontest.domain.service.AuthDataCacheManager
 import com.ssho.aeontest.domain.service.AuthDataCacheManagerImpl
 import com.ssho.aeontest.domain.service.AuthDataUpdaterImpl
 import com.ssho.aeontest.domain.service.AuthUiDataProviderImpl
-import com.ssho.aeontest.ui.AuthFragmentViewModelFactory
+import com.ssho.aeontest.ui.auth_ui.AuthFragmentViewModelFactory
 import com.ssho.aeontest.domain.usecase.*
-import com.ssho.aeontest.ui.AuthUiDataMapper
-import com.ssho.aeontest.ui.PaymentListFragmentViewModelFactory
-import com.ssho.aeontest.ui.PaymentUiMapper
+import com.ssho.aeontest.ui.auth_ui.AuthUiDataMapper
+import com.ssho.aeontest.ui.payments_ui.PaymentListFragmentViewModelFactory
+import com.ssho.aeontest.ui.payments_ui.PaymentUiMapper
 import retrofit2.Retrofit
 
 @SuppressLint("StaticFieldLeak")

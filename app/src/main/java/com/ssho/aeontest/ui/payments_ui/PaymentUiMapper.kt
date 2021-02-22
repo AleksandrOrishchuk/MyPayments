@@ -1,4 +1,4 @@
-package com.ssho.aeontest.ui
+package com.ssho.aeontest.ui.payments_ui
 
 import android.text.format.DateFormat
 import com.ssho.aeontest.data.model.Payment

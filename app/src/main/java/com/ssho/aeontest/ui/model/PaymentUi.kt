@@ -4,5 +4,5 @@ data class PaymentUi(
     val title: String,
     val amount: String,
     val currency: String,
-    val dateOfPayment: String,
+    val paymentDate: String,
 )

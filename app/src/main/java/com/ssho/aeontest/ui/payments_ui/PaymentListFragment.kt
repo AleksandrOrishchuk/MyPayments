@@ -1,4 +1,4 @@
-package com.ssho.aeontest.ui
+package com.ssho.aeontest.ui.payments_ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.ssho.aeontest.databinding.FragmentPaymentListBinding
 import com.ssho.aeontest.di.AppModule.providePaymentListViewModelFactory
+import com.ssho.aeontest.ui.SuccessfulAuthFragment
+import com.ssho.aeontest.ui.SuccessfulAuthViewModel
 
 class PaymentListFragment : SuccessfulAuthFragment() {
     companion object {

@@ -1,4 +1,4 @@
-package com.ssho.aeontest.ui
+package com.ssho.aeontest.ui.auth_ui
 
 import android.util.Log
 import androidx.lifecycle.*

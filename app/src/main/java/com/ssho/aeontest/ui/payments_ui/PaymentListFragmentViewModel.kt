@@ -1,10 +1,11 @@
-package com.ssho.aeontest.ui
+package com.ssho.aeontest.ui.payments_ui
 
 import android.util.Log
 import androidx.lifecycle.*
 import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.domain.usecase.GetUserPaymentsUseCase
 import com.ssho.aeontest.domain.usecase.UnauthorizeUserUseCase
+import com.ssho.aeontest.ui.SuccessfulAuthViewModel
 import com.ssho.aeontest.ui.model.PaymentUi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

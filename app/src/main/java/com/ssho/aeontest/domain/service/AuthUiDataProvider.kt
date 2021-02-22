@@ -1,7 +1,7 @@
 package com.ssho.aeontest.domain.service
 
 import com.ssho.aeontest.data.AuthRepository
-import com.ssho.aeontest.ui.AuthUiDataMapper
+import com.ssho.aeontest.ui.auth_ui.AuthUiDataMapper
 import com.ssho.aeontest.ui.model.AuthUiData
 
 interface AuthUiDataProvider {

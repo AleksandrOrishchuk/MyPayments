@@ -1,4 +1,4 @@
-package com.ssho.aeontest.ui
+package com.ssho.aeontest.ui.auth_ui
 
 import com.ssho.aeontest.data.model.AuthData
 import com.ssho.aeontest.ui.model.AuthUiData
