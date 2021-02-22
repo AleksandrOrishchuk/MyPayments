@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.data.AuthorizationError
-import com.ssho.aeontest.domain.service.AuthServices
+import com.ssho.aeontest.domain.service.AuthDataCacheManager
 import com.ssho.aeontest.domain.usecase.AuthorizeUserUseCase
 import com.ssho.aeontest.ui.model.AuthUiData
 import kotlinx.coroutines.Dispatchers
@@ -15,12 +15,12 @@ private const val TAG = "AuthViewModel"
 
 class AuthFragmentViewModel(
     private val authorizeUser: AuthorizeUserUseCase,
-    authServices: AuthServices,
+    private val authDataRememberMeManager: AuthDataCacheManager,
     private val navigator: Navigator
 ) : ViewModel() {
     val authUiData get() = _authUiData
     val authorizationViewState: LiveData<AuthorizationViewState> get() = _authorizationViewState
-    private var _authUiData: AuthUiData = authServices.getAuthUiData()
+    private var _authUiData: AuthUiData = authDataRememberMeManager.getAuthUiData()
     private val _authorizationViewState: MutableLiveData<AuthorizationViewState> = MutableLiveData()
 
 init {
@@ -32,6 +32,7 @@ init {
             postLoadingViewState()
             runCatching {
                 withContext(Dispatchers.IO) {
+                    authDataRememberMeManager.rememberOrClearCachedAuthData(authUiData)
                     authorizeUser(authUiData)
                 }
             }.onSuccess {
@@ -87,13 +88,13 @@ init {
 @Suppress("UNCHECKED_CAST")
 class AuthFragmentViewModelFactory(
     private val authorizeUserUseCase: AuthorizeUserUseCase,
-    private val authServices: AuthServices,
+    private val authDataCacheManager: AuthDataCacheManager,
     private val navigator: Navigator
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return AuthFragmentViewModel(
             authorizeUserUseCase,
-            authServices,
+            authDataCacheManager,
             navigator
         ) as T
     }

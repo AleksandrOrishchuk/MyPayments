@@ -7,12 +7,14 @@ import androidx.preference.PreferenceManager
 import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.data.*
 import com.ssho.aeontest.data.api.RemoteServerApi
-import com.ssho.aeontest.domain.service.AuthServices
-import com.ssho.aeontest.domain.service.AuthServicesImpl
-import com.ssho.aeontest.domain.service.GetAuthUiDataServiceImpl
+import com.ssho.aeontest.domain.service.AuthDataCacheManager
+import com.ssho.aeontest.domain.service.AuthDataCacheManagerImpl
+import com.ssho.aeontest.domain.service.AuthDataUpdaterImpl
+import com.ssho.aeontest.domain.service.AuthUiDataProviderImpl
 import com.ssho.aeontest.ui.AuthFragmentViewModelFactory
 import com.ssho.aeontest.ui.SuccessfulLoginViewModelFactory
 import com.ssho.aeontest.domain.usecase.*
+import com.ssho.aeontest.ui.AuthUiDataMapper
 import retrofit2.Retrofit
 
 @SuppressLint("StaticFieldLeak")
@@ -66,11 +68,19 @@ internal object AppModule {
         )
     }
 
+    private val authDataMapper: AuthDataMapper by lazy {
+        AuthDataMapper()
+    }
+
+    private val authUiDataMapper: AuthUiDataMapper by lazy {
+        AuthUiDataMapper()
+    }
 
     private val authorizeUserUseCase: AuthorizeUserUseCase by lazy {
         AuthorizeUserUseCaseImpl(
             authRepository = authRepository,
             userRepository = userRepository,
+            authDataMapper = authDataMapper
         )
     }
 
@@ -80,10 +90,15 @@ internal object AppModule {
         )
     }
 
-    private val authServices: AuthServices by lazy {
-        AuthServicesImpl(
-            GetAuthUiDataServiceImpl(
-                authRepository
+    private val authDataCacheManager: AuthDataCacheManager by lazy {
+        AuthDataCacheManagerImpl(
+            AuthUiDataProviderImpl(
+                authRepository = authRepository,
+                authUiDataMapper = authUiDataMapper
+            ),
+            AuthDataUpdaterImpl(
+                authRepository = authRepository,
+                authDataMapper = authDataMapper
             )
         )
     }
@@ -97,7 +112,7 @@ internal object AppModule {
     internal fun provideAuthViewModelFactory(): AuthFragmentViewModelFactory =
         AuthFragmentViewModelFactory(
             authorizeUserUseCase = authorizeUserUseCase,
-            authServices = authServices,
+            authDataCacheManager = authDataCacheManager,
             navigator = navigator
         )
 

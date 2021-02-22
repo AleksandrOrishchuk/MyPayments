@@ -1,5 +1,6 @@
 package com.ssho.aeontest.domain.usecase
 
+import com.ssho.aeontest.data.AuthDataMapper
 import com.ssho.aeontest.data.AuthRepository
 import com.ssho.aeontest.data.UserRepository
 import com.ssho.aeontest.data.model.AuthData
@@ -13,11 +14,12 @@ interface AuthorizeUserUseCase {
 class AuthorizeUserUseCaseImpl(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
+    private val authDataMapper: AuthDataMapper
 ) : AuthorizeUserUseCase {
     override suspend fun invoke(authUiData: AuthUiData) {
         updateOrClearAuthDataCache(authUiData)
 
-        val authData = mapAuthData(authUiData)
+        val authData = authUiData.let(authDataMapper)
         val userAccessToken = authRepository.getAccessToken(authData)
         val user = UserData(accessToken = userAccessToken)
 
