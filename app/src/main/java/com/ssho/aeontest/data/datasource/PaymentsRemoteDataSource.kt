@@ -38,9 +38,9 @@ class PaymentsRemoteDataSource(
         for (i in 0 until jsonArray.length()) {
             with(jsonArray.getJSONObject(i)) {
                 val title = optString("desc")
-                val amount = optDouble("amount", Double.NaN)
+                val amount = optString("amount")
                 val currency = optString("currency")
-                val created = optInt("created", Int.MIN_VALUE)
+                val created = optLong("created", Long.MIN_VALUE)
                 payments.add(
                     Payment(title, amount, currency, created)
                 )

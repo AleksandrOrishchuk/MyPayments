@@ -11,4 +11,5 @@
     <string name="password_field_hint">Enter your password here.</string>
     <string name="network_error_text">Network error. Check your connection and try again.</string>
     <string name="retry_button_text">Try again</string>
+    <string name="field_with_no_data_text">N/A</string>
 </resources>

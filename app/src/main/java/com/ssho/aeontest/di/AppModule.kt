@@ -18,6 +18,7 @@ import com.ssho.aeontest.ui.AuthFragmentViewModelFactory
 import com.ssho.aeontest.domain.usecase.*
 import com.ssho.aeontest.ui.AuthUiDataMapper
 import com.ssho.aeontest.ui.PaymentListFragmentViewModelFactory
+import com.ssho.aeontest.ui.PaymentUiMapper
 import retrofit2.Retrofit
 
 @SuppressLint("StaticFieldLeak")
@@ -140,6 +141,7 @@ internal object AppModule {
 
     internal fun providePaymentListViewModelFactory(): PaymentListFragmentViewModelFactory =
         PaymentListFragmentViewModelFactory(
+            paymentUiMapper = PaymentUiMapper(),
             getUserPaymentsUseCase = getUserPaymentsUseCase,
             unauthorizeUser = unauthorizeUserUseCase,
             navigator = navigator

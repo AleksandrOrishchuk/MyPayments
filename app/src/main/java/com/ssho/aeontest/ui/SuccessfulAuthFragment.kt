@@ -3,11 +3,7 @@ package com.ssho.aeontest.ui
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.ssho.aeontest.R
-import com.ssho.aeontest.databinding.FragmentSuccessfulLoginBinding
-import com.ssho.aeontest.di.AppModule.provideSuccessfulAuthViewModelFactory
 
 abstract class SuccessfulAuthFragment : Fragment() {
 
