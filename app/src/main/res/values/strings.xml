@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">aeontest</string>
+    <string name="app_name">My Payments</string>
+    <string name="login_title">Login:</string>
+    <string name="password_title">Password:</string>
+    <string name="remember_me_title">Remember me</string>
+    <string name="login_button_text">Login</string>
+    <string name="wrong_login_title">Wrong login and/or password!</string>
+    <string name="logout_menu_title">Logout</string>
+    <string name="successful_login_text">Successful login!</string>
+    <string name="login_field_hint">Enter your login data here.</string>
+    <string name="password_field_hint">Enter your password here.</string>
+    <string name="network_error_text">Network error. Check your connection and try again.</string>
 </resources>
