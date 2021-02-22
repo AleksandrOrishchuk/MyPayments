@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.domain.usecase.UnauthorizeUserUseCase
 
-abstract class SuccessfulAuthViewModel() : ViewModel() {
-    abstract val unauthorizeUser: UnauthorizeUserUseCase
-    abstract val navigator: Navigator
+abstract class SuccessfulAuthViewModel : ViewModel() {
+    internal abstract val unauthorizeUser: UnauthorizeUserUseCase
+    internal abstract val navigator: Navigator
 
     fun logout(): Boolean {
         unauthorizeUser()
@@ -16,16 +16,3 @@ abstract class SuccessfulAuthViewModel() : ViewModel() {
         return true
     }
 }
-
-//@Suppress("UNCHECKED_CAST")
-//class SuccessfulLoginViewModelFactory(
-//    private val unauthorizeUserUseCase: UnauthorizeUserUseCase,
-//    private val navigator: Navigator
-//) : ViewModelProvider.Factory {
-//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-//        return SuccessfulAuthViewModel(
-//            unauthorizeUserUseCase,
-//            navigator
-//        ) as T
-//    }
-//}

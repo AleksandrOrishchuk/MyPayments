@@ -25,11 +25,11 @@ class PaymentUiListAdapter : ListAdapter<PaymentUi, PaymentUiHolder>(DiffUtilCal
 
 private class DiffUtilCallBack : DiffUtil.ItemCallback<PaymentUi>() {
     override fun areItemsTheSame(oldItem: PaymentUi, newItem: PaymentUi): Boolean {
-        TODO("Not yet implemented")
+        return oldItem.title == newItem.title
     }
 
     override fun areContentsTheSame(oldItem: PaymentUi, newItem: PaymentUi): Boolean {
-        TODO("Not yet implemented")
+        return oldItem == newItem
     }
 
 }

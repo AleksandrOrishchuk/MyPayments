@@ -7,7 +7,7 @@ import com.ssho.aeontest.R
 
 abstract class SuccessfulAuthFragment : Fragment() {
 
-    abstract val viewModel: SuccessfulAuthViewModel
+    internal abstract val viewModel: SuccessfulAuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
