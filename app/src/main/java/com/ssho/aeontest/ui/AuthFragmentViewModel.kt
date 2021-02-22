@@ -36,7 +36,7 @@ init {
                     authorizeUser(authUiData)
                 }
             }.onSuccess {
-                navigator.successfulLogin()
+                navigator.userPayments()
             }.onFailure { error ->
                 if (error is AuthorizationError)
                     postFailedLoggingViewState()

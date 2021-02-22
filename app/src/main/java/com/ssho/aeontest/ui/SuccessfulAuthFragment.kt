@@ -3,34 +3,24 @@ package com.ssho.aeontest.ui
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ssho.aeontest.R
 import com.ssho.aeontest.databinding.FragmentSuccessfulLoginBinding
 import com.ssho.aeontest.di.AppModule.provideSuccessfulAuthViewModelFactory
 
-class SuccessfulLoginFragment : Fragment() {
-    companion object {
-        fun newInstance(): SuccessfulLoginFragment {
-            return SuccessfulLoginFragment()
-        }
-    }
+abstract class SuccessfulAuthFragment : Fragment() {
 
-    private lateinit var viewBinding: FragmentSuccessfulLoginBinding
-    private val viewModel: SuccessfulLoginViewModel by lazy {
-        ViewModelProvider(this, provideSuccessfulAuthViewModelFactory()).get(
-            SuccessfulLoginViewModel::class.java
-        )
-    }
+    abstract val viewModel: SuccessfulAuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         setHasOptionsMenu(true)
-        viewBinding = FragmentSuccessfulLoginBinding.inflate(inflater, container, false)
 
-        return viewBinding.root
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         if (isFragmentContainerEmpty) {
             if (isUserLoggedIn)
-                navigator.successfulLogin()
+                navigator.userPayments()
             else
                 navigator.login()
         }

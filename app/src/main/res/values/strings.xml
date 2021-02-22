@@ -10,4 +10,5 @@
     <string name="login_field_hint">Enter your login data here.</string>
     <string name="password_field_hint">Enter your password here.</string>
     <string name="network_error_text">Network error. Check your connection and try again.</string>
+    <string name="retry_button_text">Try again</string>
 </resources>
