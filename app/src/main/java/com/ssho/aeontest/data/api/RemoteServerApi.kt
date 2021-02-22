@@ -20,5 +20,5 @@ interface RemoteServerApi {
     suspend fun getPayments(
         @Path(value = "token", encoded = true)
         token: String
-    ) //todo RECEIVE LIST OF PAYMENTS and wrap mapped result
+    ): ResponseBody
 }
