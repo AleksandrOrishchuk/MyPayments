@@ -26,12 +26,12 @@ class UserRepositoryImpl(
         return userLocalDataSource.isUserLoggedIn
     }
 
-    private fun confirmUserLogin() {
-        userLocalDataSource.isUserLoggedIn = true
-    }
-
     override fun confirmUserLogout() {
         userLocalDataSource.isUserLoggedIn = false
+    }
+
+    private fun confirmUserLogin() {
+        userLocalDataSource.isUserLoggedIn = true
     }
 
 }

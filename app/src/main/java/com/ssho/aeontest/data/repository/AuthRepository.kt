@@ -28,5 +28,4 @@ class AuthRepositoryImpl(
         return authRemoteDataSource.fetchUserAccessToken(authData)
     }
 
-
 }

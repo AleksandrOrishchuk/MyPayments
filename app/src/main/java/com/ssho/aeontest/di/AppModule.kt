@@ -81,7 +81,7 @@ internal object AppModule {
     private val authorizeUserUseCase: AuthorizeUserUseCase by lazy {
         AuthorizeUserUseCaseImpl(
             authRepository = authRepository,
-            userRepository = userRepository,
+            userRepository = userRepository
         )
     }
 
@@ -93,7 +93,7 @@ internal object AppModule {
 
     private val authDataCacheManager: AuthDataCacheManager by lazy {
         AuthDataCacheManagerImpl(
-            authRepository = authRepository,
+            authRepository = authRepository
         )
     }
 
@@ -106,7 +106,7 @@ internal object AppModule {
 
     internal val getCurrentUserUseCase: GetCurrentUserUseCase by lazy {
         GetCurrentUserUseCaseImpl(
-            userRepository
+            userRepository = userRepository
         )
     }
 

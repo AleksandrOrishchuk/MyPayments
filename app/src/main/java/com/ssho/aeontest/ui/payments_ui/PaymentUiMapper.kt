@@ -30,6 +30,7 @@ class PaymentUiMapper : (Payment) -> PaymentUi {
 
     private fun getUiFormattedAmount(amount: String): String {
         val numericAmount = amount.toDoubleOrNull() ?: return ""
+
         return if (floor(numericAmount) == numericAmount)
             numericAmount.toInt().toString()
         else

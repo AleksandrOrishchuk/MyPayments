@@ -41,16 +41,20 @@ class PaymentListFragment : SuccessfulAuthFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         fragmentBinding.retryButton.setOnClickListener {
             viewModel.onLoadPayments()
         }
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel.viewState.observe(viewLifecycleOwner) {
             applyViewState(it)
         }
+
     }
 
     private fun applyViewState(viewState: PaymentsViewState?) {

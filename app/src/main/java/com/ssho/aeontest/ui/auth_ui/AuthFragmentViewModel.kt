@@ -88,6 +88,7 @@ class AuthFragmentViewModel(
 
     private fun getInitialAuthUiData(): AuthUiData {
         val cachedAuthData = authDataCacheManager.getAuthData()
+
         return if (cachedAuthData.isCached)
             mapAuthUiData(cachedAuthData)
         else
