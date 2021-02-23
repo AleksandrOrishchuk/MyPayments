@@ -1,22 +1,22 @@
 package com.ssho.aeontest.domain.service
 
-import com.ssho.aeontest.ui.model.AuthUiData
+import com.ssho.aeontest.data.model.AuthData
+import com.ssho.aeontest.data.repository.AuthRepository
 
 interface AuthDataCacheManager {
-    fun getAuthUiData(): AuthUiData
-    fun rememberOrClearCachedAuthData(authUiData: AuthUiData)
+    fun getAuthData(): AuthData
+    fun cacheAuthData(authData: AuthData)
 }
 
 class AuthDataCacheManagerImpl(
-    private val authUiDataProvider: AuthUiDataProvider,
-    private val authDataUpdater: AuthDataUpdater
-): AuthDataCacheManager {
-    override fun getAuthUiData(): AuthUiData {
-        return authUiDataProvider()
+    private val authRepository: AuthRepository
+) : AuthDataCacheManager {
+    override fun getAuthData(): AuthData {
+        return authRepository.getCachedAuthData()
     }
 
-    override fun rememberOrClearCachedAuthData(authUiData: AuthUiData) {
-        return authDataUpdater(authUiData)
+    override fun cacheAuthData(authData: AuthData) {
+        return authRepository.cacheAuthData(authData)
     }
 }
 

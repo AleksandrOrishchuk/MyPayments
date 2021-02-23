@@ -5,18 +5,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import com.ssho.aeontest.Navigator
-import com.ssho.aeontest.data.*
 import com.ssho.aeontest.data.api.RemoteServerApi
-import com.ssho.aeontest.data.datasource.PaymentsRemoteDataSource
-import com.ssho.aeontest.data.repository.PaymentsRepository
-import com.ssho.aeontest.data.repository.PaymentsRepositoryImpl
-import com.ssho.aeontest.domain.service.AuthDataCacheManager
-import com.ssho.aeontest.domain.service.AuthDataCacheManagerImpl
-import com.ssho.aeontest.domain.service.AuthDataUpdaterImpl
-import com.ssho.aeontest.domain.service.AuthUiDataProviderImpl
+import com.ssho.aeontest.data.datasource.*
+import com.ssho.aeontest.data.repository.*
+import com.ssho.aeontest.domain.service.*
 import com.ssho.aeontest.ui.auth_ui.AuthFragmentViewModelFactory
 import com.ssho.aeontest.domain.usecase.*
-import com.ssho.aeontest.ui.auth_ui.AuthUiDataMapper
 import com.ssho.aeontest.ui.payments_ui.PaymentListFragmentViewModelFactory
 import com.ssho.aeontest.ui.payments_ui.PaymentUiMapper
 import retrofit2.Retrofit
@@ -84,19 +78,10 @@ internal object AppModule {
         )
     }
 
-    private val authDataMapper: AuthDataMapper by lazy {
-        AuthDataMapper()
-    }
-
-    private val authUiDataMapper: AuthUiDataMapper by lazy {
-        AuthUiDataMapper()
-    }
-
     private val authorizeUserUseCase: AuthorizeUserUseCase by lazy {
         AuthorizeUserUseCaseImpl(
             authRepository = authRepository,
             userRepository = userRepository,
-            authDataMapper = authDataMapper
         )
     }
 
@@ -108,14 +93,7 @@ internal object AppModule {
 
     private val authDataCacheManager: AuthDataCacheManager by lazy {
         AuthDataCacheManagerImpl(
-            AuthUiDataProviderImpl(
-                authRepository = authRepository,
-                authUiDataMapper = authUiDataMapper
-            ),
-            AuthDataUpdaterImpl(
-                authRepository = authRepository,
-                authDataMapper = authDataMapper
-            )
+            authRepository = authRepository,
         )
     }
 

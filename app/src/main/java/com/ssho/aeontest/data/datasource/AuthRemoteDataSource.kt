@@ -1,4 +1,4 @@
-package com.ssho.aeontest.data
+package com.ssho.aeontest.data.datasource
 
 import com.ssho.aeontest.data.api.RemoteServerApi
 import com.ssho.aeontest.data.model.AuthData

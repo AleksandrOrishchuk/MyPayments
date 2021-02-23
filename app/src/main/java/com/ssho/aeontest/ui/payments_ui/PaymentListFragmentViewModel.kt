@@ -3,6 +3,7 @@ package com.ssho.aeontest.ui.payments_ui
 import android.util.Log
 import androidx.lifecycle.*
 import com.ssho.aeontest.Navigator
+import com.ssho.aeontest.data.datasource.AuthorizationError
 import com.ssho.aeontest.domain.usecase.GetUserPaymentsUseCase
 import com.ssho.aeontest.domain.usecase.UnauthorizeUserUseCase
 import com.ssho.aeontest.ui.SuccessfulAuthViewModel
@@ -35,8 +36,11 @@ class PaymentListFragmentViewModel(
                     val paymentUiList = paymentList.map(paymentUiMapper)
                     postResultViewState(paymentUiList)
                 }.onFailure { error ->
-                    postNetworkErrorViewState()
                     Log.e(TAG, error.message, error)
+                    when (error) {
+                        is AuthorizationError -> super.logout()
+                        else -> postNetworkErrorViewState()
+                    }
                 }
             }
         }

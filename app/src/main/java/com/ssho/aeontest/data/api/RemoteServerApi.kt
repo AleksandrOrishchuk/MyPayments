@@ -16,9 +16,9 @@ interface RemoteServerApi {
     ): ResponseBody
 
     @Headers("app-key:12345", "v:1")
-    @GET("payments?token={token}")
+    @GET("payments")
     suspend fun getPayments(
-        @Path(value = "token", encoded = true)
+        @Query("token")
         token: String
     ): ResponseBody
 }

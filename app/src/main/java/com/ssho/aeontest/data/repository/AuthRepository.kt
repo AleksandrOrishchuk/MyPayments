@@ -1,5 +1,7 @@
-package com.ssho.aeontest.data
+package com.ssho.aeontest.data.repository
 
+import com.ssho.aeontest.data.datasource.AuthLocalDataSource
+import com.ssho.aeontest.data.datasource.AuthRemoteDataSource
 import com.ssho.aeontest.data.model.AuthData
 
 interface AuthRepository {

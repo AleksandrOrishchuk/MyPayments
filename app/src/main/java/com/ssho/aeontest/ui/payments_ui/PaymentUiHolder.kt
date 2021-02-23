@@ -4,6 +4,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssho.aeontest.R
 import com.ssho.aeontest.databinding.ListItemPaymentBinding
 import com.ssho.aeontest.ui.model.PaymentUi
+import kotlin.math.floor
+import kotlin.math.round
 
 class PaymentUiHolder(
     private val viewBinding: ListItemPaymentBinding
@@ -33,4 +35,5 @@ class PaymentUiHolder(
             }
         }
     }
+
 }

@@ -1,6 +1,6 @@
 package com.ssho.aeontest.domain.usecase
 
-import com.ssho.aeontest.data.UserRepository
+import com.ssho.aeontest.data.repository.UserRepository
 
 interface UnauthorizeUserUseCase {
     operator fun invoke()

@@ -1,6 +1,5 @@
 package com.ssho.aeontest.data.datasource
 
-import com.ssho.aeontest.data.AuthorizationError
 import com.ssho.aeontest.data.api.RemoteServerApi
 import com.ssho.aeontest.data.model.Payment
 import okhttp3.ResponseBody
@@ -40,7 +39,7 @@ class PaymentsRemoteDataSource(
                 val title = optString("desc")
                 val amount = optString("amount")
                 val currency = optString("currency")
-                val created = optLong("created", Long.MIN_VALUE)
+                val created = optLong("created", 0)
                 payments.add(
                     Payment(title, amount, currency, created)
                 )
