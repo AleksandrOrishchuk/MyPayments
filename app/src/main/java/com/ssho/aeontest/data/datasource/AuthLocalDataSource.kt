@@ -29,11 +29,12 @@ class AuthLocalDataSource(private val sharedPreferences: SharedPreferences) {
             sharedPreferences.edit { putString(KEY_PASSWORD, value) }
         }
 
-    fun getCachedAuthData(): AuthData = AuthData(
-        login,
-        password,
-        isAuthDataCached
-    )
+    fun getCachedAuthData(): AuthData =
+        AuthData(
+            login,
+            password,
+            isAuthDataCached
+        )
 
     fun cacheAuthData(authData: AuthData) {
         if (isAuthDataCached) {

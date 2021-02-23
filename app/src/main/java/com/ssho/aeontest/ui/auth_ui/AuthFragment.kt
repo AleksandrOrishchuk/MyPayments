@@ -50,6 +50,7 @@ class AuthFragment : Fragment() {
                 loginEditText.setText(login)
                 passwordEditText.setText(password)
                 rememberMeCheckbox.isChecked = isRememberMeChecked
+                rememberMeCheckbox.jumpDrawablesToCurrentState()
             }
 
         }
