@@ -16,7 +16,7 @@ class AuthDataCacheManagerImpl(
     }
 
     override fun cacheAuthData(authData: AuthData) {
-        return authRepository.cacheAuthData(authData)
+        authRepository.cacheAuthData(authData)
     }
 }
 

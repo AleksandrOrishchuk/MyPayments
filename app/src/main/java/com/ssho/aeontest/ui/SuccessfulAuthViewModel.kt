@@ -6,8 +6,8 @@ import com.ssho.aeontest.Navigator
 import com.ssho.aeontest.domain.usecase.UnauthorizeUserUseCase
 
 abstract class SuccessfulAuthViewModel : ViewModel() {
-    internal abstract val unauthorizeUser: UnauthorizeUserUseCase
-    internal abstract val navigator: Navigator
+    protected abstract val unauthorizeUser: UnauthorizeUserUseCase
+    protected abstract val navigator: Navigator
 
     fun logout(): Boolean {
         unauthorizeUser()

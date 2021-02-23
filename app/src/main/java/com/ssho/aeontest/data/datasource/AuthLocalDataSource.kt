@@ -11,7 +11,7 @@ class AuthLocalDataSource(private val sharedPreferences: SharedPreferences) {
         private const val KEY_IS_USER_REMEMBERED = "key_is_user_remembered"
     }
 
-    var isAuthDataCached: Boolean
+    private var isAuthDataCached: Boolean
         get() = sharedPreferences.getBoolean(KEY_IS_USER_REMEMBERED, false)
         set(boolean) {
             sharedPreferences.edit { putBoolean(KEY_IS_USER_REMEMBERED, boolean) }
@@ -36,8 +36,10 @@ class AuthLocalDataSource(private val sharedPreferences: SharedPreferences) {
     )
 
     fun cacheAuthData(authData: AuthData) {
-        login = authData.login
-        password = authData.password
+        if (isAuthDataCached) {
+            login = authData.login
+            password = authData.password
+        }
         isAuthDataCached = authData.isCached
     }
 }

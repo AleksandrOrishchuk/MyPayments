@@ -25,26 +25,25 @@ class AuthFragmentViewModel(
     private val _authorizationViewState: MutableLiveData<AuthorizationViewState> = MutableLiveData()
 
     init {
-        postRegularLoggingViewState()
+        setRegularLoggingViewState()
     }
 
     fun login() {
         viewModelScope.launch {
-            postLoadingViewState()
+            setLoadingViewState()
             val authData = mapAuthData(authUiData)
             runCatching {
                 withContext(Dispatchers.IO) {
                     authorizeUser(authData)
                 }
             }.onSuccess {
-                if (authUiData.isRememberMeChecked)
-                    authDataCacheManager.cacheAuthData(authData)
+                authDataCacheManager.cacheAuthData(authData)
                 navigator.userPayments()
             }.onFailure { error ->
                 Log.e(TAG, error.message, error)
                 when (error) {
-                    is AuthorizationError -> postFailedLoggingViewState()
-                    else -> postNetworkErrorViewState()
+                    is AuthorizationError -> setFailedLoggingViewState()
+                    else -> setNetworkErrorViewState()
                 }
             }
         }
@@ -62,28 +61,21 @@ class AuthFragmentViewModel(
         _authUiData = _authUiData.copy(isRememberMeChecked = isChecked)
     }
 
-    private fun postRegularLoggingViewState() {
-        _authorizationViewState.postValue(
-            AuthorizationViewState.RegularLogging
-        )
+    private fun setRegularLoggingViewState() {
+        _authorizationViewState.value = AuthorizationViewState.RegularLogging
     }
 
-    private fun postFailedLoggingViewState() {
-        _authorizationViewState.postValue(
-            AuthorizationViewState.FailedLogging
-        )
+    private fun setFailedLoggingViewState() {
+        _authorizationViewState.value = AuthorizationViewState.FailedLogging
     }
 
-    private fun postNetworkErrorViewState() {
-        _authorizationViewState.postValue(
-            AuthorizationViewState.NetworkError
-        )
+    private fun setNetworkErrorViewState() {
+        _authorizationViewState.value = AuthorizationViewState.NetworkError
+
     }
 
-    private fun postLoadingViewState() {
-        _authorizationViewState.postValue(
-            AuthorizationViewState.Loading
-        )
+    private fun setLoadingViewState() {
+        _authorizationViewState.value = AuthorizationViewState.Loading
     }
 
     private fun getInitialAuthUiData(): AuthUiData {
