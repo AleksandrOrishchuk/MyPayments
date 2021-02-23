@@ -10,4 +10,11 @@
     <string name="login_field_hint">Enter your login data here.</string>
     <string name="password_field_hint">Enter your password here.</string>
     <string name="network_error_text">Network error. Check your connection and try again.</string>
+    <string name="retry_button_text">Try again</string>
+    <string name="payment_date_description">Date:</string>
+    <string name="payment_amount_description">Amount:</string>
+    <string name="payment_title_empty_text">Unknown payment</string>
+    <string name="amount_title_empty_text">unknown amount</string>
+    <string name="payment_currency_empty_text">of unknown currency</string>
+    <string name="payment_date_empty_text">unknown date</string>
 </resources>

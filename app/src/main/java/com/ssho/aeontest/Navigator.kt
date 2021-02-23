@@ -2,8 +2,8 @@ package com.ssho.aeontest
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.ssho.aeontest.ui.AuthFragment
-import com.ssho.aeontest.ui.SuccessfulLoginFragment
+import com.ssho.aeontest.ui.auth_ui.AuthFragment
+import com.ssho.aeontest.ui.payments_ui.PaymentListFragment
 
 class Navigator {
     var activity: AppCompatActivity? = null
@@ -20,7 +20,7 @@ class Navigator {
         replaceFragment(AuthFragment.newInstance())
     }
 
-    fun successfulLogin() {
-        replaceFragment(SuccessfulLoginFragment.newInstance())
+    fun userPayments() {
+        replaceFragment(PaymentListFragment.newInstance())
     }
 }

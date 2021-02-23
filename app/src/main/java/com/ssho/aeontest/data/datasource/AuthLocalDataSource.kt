@@ -1,4 +1,4 @@
-package com.ssho.aeontest.data
+package com.ssho.aeontest.data.datasource
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -31,11 +31,13 @@ class AuthLocalDataSource(private val sharedPreferences: SharedPreferences) {
 
     fun getCachedAuthData(): AuthData = AuthData(
         login,
-        password
+        password,
+        isAuthDataCached
     )
 
     fun cacheAuthData(authData: AuthData) {
         login = authData.login
         password = authData.password
+        isAuthDataCached = authData.isCached
     }
 }

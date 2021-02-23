@@ -1,9 +1,10 @@
-package com.ssho.aeontest.ui
+package com.ssho.aeontest.ui.auth_ui
 
 import android.util.Log
 import androidx.lifecycle.*
 import com.ssho.aeontest.Navigator
-import com.ssho.aeontest.data.AuthorizationError
+import com.ssho.aeontest.data.datasource.AuthorizationError
+import com.ssho.aeontest.data.model.AuthData
 import com.ssho.aeontest.domain.service.AuthDataCacheManager
 import com.ssho.aeontest.domain.usecase.AuthorizeUserUseCase
 import com.ssho.aeontest.ui.model.AuthUiData
@@ -15,34 +16,36 @@ private const val TAG = "AuthViewModel"
 
 class AuthFragmentViewModel(
     private val authorizeUser: AuthorizeUserUseCase,
-    private val authDataRememberMeManager: AuthDataCacheManager,
+    private val authDataCacheManager: AuthDataCacheManager,
     private val navigator: Navigator
 ) : ViewModel() {
     val authUiData get() = _authUiData
     val authorizationViewState: LiveData<AuthorizationViewState> get() = _authorizationViewState
-    private var _authUiData: AuthUiData = authDataRememberMeManager.getAuthUiData()
+    private var _authUiData: AuthUiData = getInitialAuthUiData()
     private val _authorizationViewState: MutableLiveData<AuthorizationViewState> = MutableLiveData()
 
-init {
-    postRegularLoggingViewState()
-}
+    init {
+        postRegularLoggingViewState()
+    }
 
     fun login() {
         viewModelScope.launch {
             postLoadingViewState()
+            val authData = mapAuthData(authUiData)
             runCatching {
                 withContext(Dispatchers.IO) {
-                    authDataRememberMeManager.rememberOrClearCachedAuthData(authUiData)
-                    authorizeUser(authUiData)
+                    authorizeUser(authData)
                 }
             }.onSuccess {
-                navigator.successfulLogin()
+                if (authUiData.isRememberMeChecked)
+                    authDataCacheManager.cacheAuthData(authData)
+                navigator.userPayments()
             }.onFailure { error ->
-                if (error is AuthorizationError)
-                    postFailedLoggingViewState()
-                else
-                    postNetworkErrorViewState()
                 Log.e(TAG, error.message, error)
+                when (error) {
+                    is AuthorizationError -> postFailedLoggingViewState()
+                    else -> postNetworkErrorViewState()
+                }
             }
         }
     }
@@ -83,7 +86,34 @@ init {
         )
     }
 
+    private fun getInitialAuthUiData(): AuthUiData {
+        val cachedAuthData = authDataCacheManager.getAuthData()
+        return if (cachedAuthData.isCached)
+            mapAuthUiData(cachedAuthData)
+        else
+            AuthUiData()
+    }
+
+    private fun mapAuthUiData(authData: AuthData): AuthUiData {
+        return if (authData.isCached)
+            AuthUiData(
+                login = authData.login,
+                password = authData.password,
+                isRememberMeChecked = true
+            )
+        else AuthUiData()
+    }
+
+
+    private fun mapAuthData(authUiData: AuthUiData): AuthData =
+        AuthData(
+            login = authUiData.login,
+            password = authUiData.password,
+            isCached = authUiData.isRememberMeChecked
+        )
+
 }
+
 
 @Suppress("UNCHECKED_CAST")
 class AuthFragmentViewModelFactory(

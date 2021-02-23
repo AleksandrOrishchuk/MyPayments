@@ -1,4 +1,4 @@
-package com.ssho.aeontest.data
+package com.ssho.aeontest.data.datasource
 
 import com.ssho.aeontest.data.api.RemoteServerApi
 import com.ssho.aeontest.data.model.AuthData
@@ -26,8 +26,13 @@ class AuthRemoteDataSourceImpl(
 
         return if (isAuthorisationSuccessful)
             getAccessToken(json)
-        else
-            throwAuthorizationError(json)
+        else {
+            val error = json.getJSONObject("error")
+            val code = error.getInt("error_code")
+            val message = error.getString("error_msg")
+
+            throw AuthorizationError(code, message)
+        }
     }
 
     private fun getAccessToken(json: JSONObject): String {
@@ -36,13 +41,6 @@ class AuthRemoteDataSourceImpl(
         return response.getString("token")
     }
 
-    private fun throwAuthorizationError(json: JSONObject): String {
-        val error = json.getJSONObject("error")
-        val code = error.getInt("error_code")
-        val message = error.getString("error_msg")
-
-        throw AuthorizationError(code, message)
-    }
 }
 
 class AuthorizationError(val code: Int, override val message: String) : RuntimeException()

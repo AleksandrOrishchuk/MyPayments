@@ -1,5 +1,6 @@
-package com.ssho.aeontest.data
+package com.ssho.aeontest.data.repository
 
+import com.ssho.aeontest.data.datasource.UserLocalDataSource
 import com.ssho.aeontest.data.model.UserData
 
 interface UserRepository {
