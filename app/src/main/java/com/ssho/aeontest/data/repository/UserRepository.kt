@@ -4,18 +4,18 @@ import com.ssho.aeontest.data.datasource.UserLocalDataSource
 import com.ssho.aeontest.data.model.UserData
 
 interface UserRepository {
-    fun setCurrentUser(user: UserData)
+    fun cacheUserAccessToken(accessToken: String)
     fun getCurrentUser(): UserData
     fun isUserLoggedIn(): Boolean
     fun confirmUserLogout()
+    fun confirmUserLogin()
 }
 
 class UserRepositoryImpl(
     private val userLocalDataSource: UserLocalDataSource,
 ) : UserRepository {
-    override fun setCurrentUser(user: UserData) {
-        userLocalDataSource.user = user
-        confirmUserLogin()
+    override fun cacheUserAccessToken(accessToken: String) {
+        userLocalDataSource.user = userLocalDataSource.user.copy(accessToken = accessToken)
     }
 
     override fun getCurrentUser(): UserData {
@@ -30,7 +30,7 @@ class UserRepositoryImpl(
         userLocalDataSource.isUserLoggedIn = false
     }
 
-    private fun confirmUserLogin() {
+    override fun confirmUserLogin() {
         userLocalDataSource.isUserLoggedIn = true
     }
 

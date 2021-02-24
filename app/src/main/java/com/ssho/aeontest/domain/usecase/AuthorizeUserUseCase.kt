@@ -15,8 +15,7 @@ class AuthorizeUserUseCaseImpl(
 ) : AuthorizeUserUseCase {
     override suspend fun invoke(authData: AuthData) {
         val userAccessToken = authRepository.getAccessToken(authData)
-        val user = UserData(accessToken = userAccessToken)
-
-        userRepository.setCurrentUser(user)
+        userRepository.cacheUserAccessToken(userAccessToken)
+        userRepository.confirmUserLogin()
     }
 }
