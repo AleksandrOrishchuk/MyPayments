@@ -37,7 +37,7 @@ class AuthLocalDataSource(private val sharedPreferences: SharedPreferences) {
         )
 
     fun cacheAuthData(authData: AuthData) {
-        if (isAuthDataCached) {
+        if (authData.isCached) {
             login = authData.login
             password = authData.password
         }
